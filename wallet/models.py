@@ -1,3 +1,6 @@
+from email.policy import default
+from operator import mod
+from uuid import uuid4
 from django.conf import settings
 from django.db import models
 
@@ -39,6 +42,7 @@ class CardModel(models.Model):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
     card_number = models.CharField(max_length=255)
     expire = models.CharField(max_length=255)
+    card_uuid = models.UUIDField(default=uuid4)
 
     def __str__(self):
         return str(self.card_number)
