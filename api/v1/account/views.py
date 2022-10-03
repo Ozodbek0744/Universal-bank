@@ -110,7 +110,6 @@ def registration_view(request):
         if serializer.is_valid():
             account = serializer.save()
             data['response'] = "successfully registered a new user."
-            data['email'] = account.email
             data['phone_number'] = account.phone_number
             refresh = RefreshToken.for_user(account)
             data['jwt_token'] = {

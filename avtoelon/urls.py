@@ -18,7 +18,7 @@ schema_view = get_schema_view(
       contact=openapi.Contact(email="telelon@gmail.com"),
       license=openapi.License(name="BSD License"),
    ),
-   url=f"https://{config('PRODUCTION_HOST')}/",
+   url=f"http://{config('PRODUCTION_HOST')}:8000/",
    public=True,
    permission_classes=(permissions.AllowAny,),
 )
