@@ -8,8 +8,7 @@ from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
 from uuid import uuid4
 from wallet.services import create_wallet_util
-from ads.models import FavAdModel
-from .country import CountryModel
+from accounts.models.country import CountryModel
 from wallet.models import WalletModel
 
 def upload_location(instance, filename):
@@ -53,8 +52,6 @@ class Account(AbstractBaseUser):
     created_at = models.DateTimeField(auto_now_add=True)
     profile_picture = models.ImageField(upload_to=upload_location, null=True, blank=True)
     country = models.ForeignKey(CountryModel, on_delete=models.SET_NULL, null=True, blank=True)
-    wallet = models.ForeignKey(WalletModel, on_delete=models.SET_NULL, null=True, blank=True)
-    favs = models.ForeignKey(FavAdModel, on_delete=models.SET_NULL, null=True, blank=True)
 
 
     is_admin = models.BooleanField(default=False)
