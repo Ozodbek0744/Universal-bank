@@ -1,0 +1,55 @@
+version: '3.7'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: app
+    restart: always
+    command: sh -c "gunicorn --bind 0.0.0.0:8000 avtoelon.wsgi:application"
+    volumes:
+      - .:/usr/src/app
+      - ./media:/usr/src/app/media
+      - ./static:/usr/src/app/static
+      - ./media_cdn:/usr/src/app/media_cdn
+      - ./static_cdn:/usr/src/app/static_cdn
+    ports:
+      - "8000:8000"
+    depends_on:
+       - dbdata
+    env_file:
+       - .env
+
+  nginx:
+   build:
+     context: .
+     dockerfile: nginx/Dockerfile
+   volumes:
+      - ./media:/media
+      - ./static:/static
+      - ./media_cdn:/media_cdn
+      - ./static_cdn:/static_cdn
+   ports:
+     - "80:80" 
+   depends_on:
+     - app
+  dbdata:
+    image: postgres
+    container_name: dbdata
+    # hostname:
+    ports:
+      - "5432:5432"
+    restart: always
+    env_file:
+     - .env
+    volumes:
+     - pgdbdata:/var/lib/postgresql/data/
+
+
+
+
+
+
+volumes:
+  pgdbdata:

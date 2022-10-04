@@ -17,6 +17,7 @@ class AdPicturModel(models.Model):
     picture = models.ImageField(upload_to=upload_location, null=True, blank=True)
 
 class AdModel(models.Model):
+    title = models.CharField(max_length=255, null=True, blank=True)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='ads', on_delete=models.SET_NULL, blank=True, null=True)
     picture = models.ForeignKey(AdPicturModel, on_delete=models.CASCADE, null=True, blank=True)
     price = models.PositiveIntegerField()

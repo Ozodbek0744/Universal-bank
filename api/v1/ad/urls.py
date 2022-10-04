@@ -9,5 +9,10 @@ urlpatterns = [
     path('delete-ad/<int:pk>', delete_ad, name='delete-ad'),
     path('get-ad/<int:pk>', get_ad, name='get-ad'),
     path('get-ads/', ads_view, name='get-ads'),
+    path('search/', search_view, name='search'),
+    path('ordering/', AdListFilterView.as_view(), name='filter'),
+
+
+
 
 ]

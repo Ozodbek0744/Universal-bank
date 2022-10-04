@@ -8,7 +8,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config("SECRET_KEY")
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -21,15 +21,18 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'app.apps.AppConfig',
+
+
     'rest_framework',
     'rest_framework.authtoken',
     'rest_framework_simplejwt',
 
     'drf_yasg',
     'corsheaders',
-
+    'app.apps.AppConfig',
     'wallet.apps.WalletConfig',
+    'django_filters'
+
 
 ]
 AUTH_USER_MODEL = 'accounts.Account'
@@ -68,6 +71,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     
+    
 
 ]
 
@@ -93,7 +97,7 @@ WSGI_APPLICATION = 'avtoelon.wsgi.application'
 
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:8000",
+    "http://127.0.0.1",
 ]
 
 # DATABASES = {

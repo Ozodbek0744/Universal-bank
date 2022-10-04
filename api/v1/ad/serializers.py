@@ -23,3 +23,10 @@ class FavSerializer(serializers.ModelSerializer):
     class Meta:
         model = FavAdModel
         fields = '__all__'
+
+
+class SearchSerializer(serializers.Serializer):
+    word = serializers.CharField(max_length=255)
+
+    class Meta:
+        fields = "__all__"

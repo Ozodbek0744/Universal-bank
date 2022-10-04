@@ -1,7 +1,8 @@
 from re import A
-import requests
+from django.db.models import Q
+from api.v1.ad.filters import AdFilter
 from decouple import config
-from django.conf import settings
+from rest_framework import filters
 from django.db.utils import IntegrityError
 from django.http import Http404
 from drf_yasg.utils import swagger_auto_schema
@@ -14,6 +15,7 @@ from app.models import *
 from api.v1.ad.serializers import *
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.generics import ListAPIView, RetrieveAPIView
+from django_filters.rest_framework import DjangoFilterBackend
 
 
 @swagger_auto_schema(method="post", tags=["Ad"], request_body=AdSerializer)
@@ -95,3 +97,32 @@ def ads_view(request):
     result_page = paginator.paginate_queryset(person_objects, request)
     serializer = AdSerializer(result_page, many=True)
     return paginator.get_paginated_response(serializer.data)
+
+
+@swagger_auto_schema(method='POST', tags=['search'], request_body=SearchSerializer)
+@api_view(['POST', ])
+def search_view(request):
+
+    a = request.data['word']
+    if request.method == 'POST':
+
+        snippet = AdModel.objects.all()
+        queryset_news = snippet.filter(
+            Q(title__icontains=a) |
+            Q(comment__icontains=a)|
+            Q(model__icontains=a))
+
+        serializer_ads = AdSerializer(queryset_news, many=True)
+        new_data = {
+            "found_ads": serializer_ads.data,
+        }
+
+        return Response(new_data)
+
+class AdListFilterView(ListAPIView):
+    queryset = AdModel.objects.all()
+    serializer_class = AdSerializer
+    filter_backends = (DjangoFilterBackend, filters.OrderingFilter)
+    filterset_class = AdFilter
+    ordering_fields = ['price', 'created_at']
+    ordering = ['price', '-price', '-created_at', 'created_at']
