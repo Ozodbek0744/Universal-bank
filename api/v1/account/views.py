@@ -62,7 +62,6 @@ def step_one(request):
                 'sms_service_response': r.json(),
             }
             return Response(data=data, status=status.HTTP_201_CREATED)
-
         return Response(r.json())
 
 
